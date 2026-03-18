@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-03-18T10:29:28.389511+00:00",
+  "cpu": "Intel i5-11320H (4 cores / 8 threads)",
+  "results": [
+    {
+      "mode": "serial",
+      "total_events": 20000,
+      "total_alerts": 950,
+      "elapsed_seconds": 0.050893,
+      "events_per_second": 392980.5,
+      "alerts_by_rule": {
+        "success_after_failure": 492,
+        "slow_brute_force": 259,
+        "server_auth_limit_hit": 144,
+        "brute_force": 22,
+        "user_enumeration": 30,
+        "port_scan_probe": 3
+      }
+    },
+    {
+      "mode": "parallel_by_type",
+      "total_events": 20000,
+      "total_alerts": 949,
+      "elapsed_seconds": 0.695751,
+      "events_per_second": 28745.9,
+      "alerts_by_rule": {
+        "brute_force": 22,
+        "slow_brute_force": 259,
+        "user_enumeration": 30,
+        "success_after_failure": 492,
+        "port_scan_probe": 3,
+        "server_auth_limit_hit": 143
+      }
+    },
+    {
+      "mode": "parallel_batch_2w",
+      "total_events": 20000,
+      "total_alerts": 948,
+      "elapsed_seconds": 0.094598,
+      "events_per_second": 211421.6,
+      "alerts_by_rule": {
+        "success_after_failure": 492,
+        "slow_brute_force": 259,
+        "server_auth_limit_hit": 143,
+        "brute_force": 21,
+        "user_enumeration": 30,
+        "port_scan_probe": 3
+      }
+    },
+    {
+      "mode": "parallel_batch_4w",
+      "total_events": 20000,
+      "total_alerts": 948,
+      "elapsed_seconds": 0.103244,
+      "events_per_second": 193716.6,
+      "alerts_by_rule": {
+        "success_after_failure": 492,
+        "slow_brute_force": 259,
+        "server_auth_limit_hit": 143,
+        "brute_force": 21,
+        "user_enumeration": 30,
+        "port_scan_probe": 3
+      }
+    },
+    {
+      "mode": "parallel_windows_5min",
+      "total_events": 20000,
+      "total_alerts": 814,
+      "elapsed_seconds": 0.241447,
+      "events_per_second": 82833.8,
+      "alerts_by_rule": {
+        "success_after_failure": 431,
+        "slow_brute_force": 187,
+        "server_auth_limit_hit": 143,
+        "brute_force": 21,
+        "user_enumeration": 29,
+        "port_scan_probe": 3
+      }
+    }
+  ]
+}
