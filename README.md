@@ -10,7 +10,7 @@ The **detection engine** reads those events and applies six rules across four pr
 
 ## Stack
 
-Python · SQLite · Flask · Docker · Kafka (planned) · Elasticsearch (planned)
+Python · SQLite · Flask · Docker · Kafka  · Elasticsearch
 
 ## Run it
 
