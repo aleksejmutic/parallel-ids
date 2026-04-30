@@ -22,7 +22,7 @@ from typing import Callable
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from normalizer.ssh_normalizer import SSHNormalizer
-from storage.db import init_db, insert_event
+from kafka_local.producer import send_event
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -47,7 +47,7 @@ def _emit(line: str, host: str, scenario_id: str, delay: float = 0.0):
     full_line = f"{_now()} {host} {line}"
     event = normalizer.parse(full_line, source_host=host, scenario_id=scenario_id)
     if event:
-        insert_event(event)
+        send_event(event)
         tag = f"[{scenario_id}]" if scenario_id else "[live]"
         print(f"{tag} {event.event_type:<22} {event.source_ip:<16} {full_line.split('sshd')[-1].strip()[:70]}")
     else:
@@ -262,9 +262,7 @@ def main():
             print(f"  {name:<30} {fn.__doc__.strip().splitlines()[0]}")
         return
 
-    init_db()
-    print("[simulator] Database initialized.")
-    print("[simulator] Starting — events will be saved to ids_data.db\n")
+    print("[simulator] Starting — sending events to Kafka.\n")
 
     if args.scenario:
         SCENARIOS[args.scenario]()

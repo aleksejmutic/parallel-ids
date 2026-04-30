@@ -1,6 +1,6 @@
 from kafka import KafkaProducer
 from shared.schema import Event
-from topics import RAW_EVENTS_TOPIC
+from .topics import RAW_EVENTS_TOPIC
 import json
 
 producer = KafkaProducer(

@@ -1,6 +1,6 @@
 from kafka import KafkaConsumer
 from shared.schema import Event
-from topics import RAW_EVENTS_TOPIC
+from .topics import RAW_EVENTS_TOPIC
 import json
 
 consumer = KafkaConsumer(
