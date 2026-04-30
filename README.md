@@ -1,6 +1,6 @@
 # parallel-ids
 
-A parallelized intrusion detection system built in Python. Simulates realistic network attack scenarios across multiple protocols and log sources, detects threats using six detection rules, and benchmarks four different processing strategies — serial, parallel by rule type, parallel batch, and parallel time windows — to compare detection performance at scale.
+A parallelized intrusion detection system built in Python. Simulates realistic network attack scenarios across multiple protocols and log sources, detects threats using six detection rules, and benchmarks four different processing strategies: serial, parallel by rule type, parallel batch, and parallel time windows, to compare detection performance at scale.
 
 ## What it does
 
