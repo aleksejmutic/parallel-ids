@@ -12,7 +12,55 @@ The **detection engine** reads those events and applies six rules across four pr
 
 Python · SQLite · Flask · Docker · Kafka  · Elasticsearch
 
-## Run it
+## Run with Docker (Kafka + Zookeeper)
+
+First start Docker:
+
+```bash
+docker-compose up -d
+```
+
+This will start:
+- Zookeeper
+- Kafka broker
+
+Kafka will be available on:
+- `localhost:9092` (host access)
+- `kafka:9092` (inside Docker network)
+
+---
+
+## Running the Simulation (SSH Attack Generator)
+
+The SSH simulator is a standalone script that publishes events into Kafka.
+
+### 1. Start the Kafka consumer (run first)
+
+```bash
+python3 -m kafka_local.consumer
+```
+
+> This must be run as a module (`-m`) because `kafka_local` is a Python package and relies on package imports (e.g. `shared.schema`, `topics`, etc.).
+
+---
+
+### 2. Start the SSH simulator (run second)
+
+```bash
+python3 simulator/ssh_simulator.py
+```
+
+> This is run as a direct script because it is designed as an executable entrypoint and already uses local imports relative to the project structure.
+
+---
+
+## What happens
+
+- Simulator generates SSH attack + normal traffic logs
+- Producer sends events to Kafka topic `raw-events`
+- Consumer reads events and prints them in real-time
+
+## Running the app
 
 ```bash
 pip3 install flask
