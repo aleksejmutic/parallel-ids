@@ -17,7 +17,7 @@ Python · SQLite · Flask · Docker · Kafka  · Elasticsearch
 First start Docker:
 
 ```bash
-docker-compose up -d
+docker-compose up
 ```
 
 This will start:
@@ -47,7 +47,7 @@ python3 -m event_streaming.consumer
 ### 2. Start the SSH simulator (run second)
 
 ```bash
-python3 -m simulator.ssh_simulator.py
+python3 -m simulator.ssh_simulator
 ```
 
 > This can be run as a direct script because it is designed as an executable entrypoint and already uses local imports relative to the project structure, but it can also be run as a module path, since it is part of the project structure.
