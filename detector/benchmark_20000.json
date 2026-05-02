@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-03-18T10:29:28.389511+00:00",
+  "timestamp": "2026-05-02T03:02:44.263876+00:00",
   "cpu": "Intel i5-11320H (4 cores / 8 threads)",
   "results": [
     {
       "mode": "serial",
       "total_events": 20000,
       "total_alerts": 950,
-      "elapsed_seconds": 0.050893,
-      "events_per_second": 392980.5,
+      "elapsed_seconds": 0.050124,
+      "events_per_second": 399010.4,
       "alerts_by_rule": {
         "success_after_failure": 492,
         "slow_brute_force": 259,
@@ -21,8 +21,8 @@
       "mode": "parallel_by_type",
       "total_events": 20000,
       "total_alerts": 949,
-      "elapsed_seconds": 0.695751,
-      "events_per_second": 28745.9,
+      "elapsed_seconds": 0.447197,
+      "events_per_second": 44723.0,
       "alerts_by_rule": {
         "brute_force": 22,
         "slow_brute_force": 259,
@@ -35,14 +35,14 @@
     {
       "mode": "parallel_batch_2w",
       "total_events": 20000,
-      "total_alerts": 948,
-      "elapsed_seconds": 0.094598,
-      "events_per_second": 211421.6,
+      "total_alerts": 949,
+      "elapsed_seconds": 0.072187,
+      "events_per_second": 277057.7,
       "alerts_by_rule": {
         "success_after_failure": 492,
         "slow_brute_force": 259,
         "server_auth_limit_hit": 143,
-        "brute_force": 21,
+        "brute_force": 22,
         "user_enumeration": 30,
         "port_scan_probe": 3
       }
@@ -50,14 +50,14 @@
     {
       "mode": "parallel_batch_4w",
       "total_events": 20000,
-      "total_alerts": 948,
-      "elapsed_seconds": 0.103244,
-      "events_per_second": 193716.6,
+      "total_alerts": 949,
+      "elapsed_seconds": 0.071558,
+      "events_per_second": 279494.1,
       "alerts_by_rule": {
         "success_after_failure": 492,
         "slow_brute_force": 259,
         "server_auth_limit_hit": 143,
-        "brute_force": 21,
+        "brute_force": 22,
         "user_enumeration": 30,
         "port_scan_probe": 3
       }
@@ -65,15 +65,15 @@
     {
       "mode": "parallel_windows_5min",
       "total_events": 20000,
-      "total_alerts": 814,
-      "elapsed_seconds": 0.241447,
-      "events_per_second": 82833.8,
+      "total_alerts": 751,
+      "elapsed_seconds": 0.169454,
+      "events_per_second": 118025.9,
       "alerts_by_rule": {
-        "success_after_failure": 431,
-        "slow_brute_force": 187,
+        "success_after_failure": 409,
+        "slow_brute_force": 152,
         "server_auth_limit_hit": 143,
+        "user_enumeration": 23,
         "brute_force": 21,
-        "user_enumeration": 29,
         "port_scan_probe": 3
       }
     }

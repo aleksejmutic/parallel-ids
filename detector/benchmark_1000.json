@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-03-18T10:29:25.855355+00:00",
+  "timestamp": "2026-05-02T03:02:42.636846+00:00",
   "cpu": "Intel i5-11320H (4 cores / 8 threads)",
   "results": [
     {
       "mode": "serial",
       "total_events": 1000,
       "total_alerts": 16,
-      "elapsed_seconds": 0.007919,
-      "events_per_second": 126273.4,
+      "elapsed_seconds": 0.007189,
+      "events_per_second": 139100.1,
       "alerts_by_rule": {
         "server_auth_limit_hit": 14,
         "success_after_failure": 2
@@ -17,8 +17,8 @@
       "mode": "parallel_by_type",
       "total_events": 1000,
       "total_alerts": 16,
-      "elapsed_seconds": 0.178941,
-      "events_per_second": 5588.4,
+      "elapsed_seconds": 0.179062,
+      "events_per_second": 5584.7,
       "alerts_by_rule": {
         "success_after_failure": 2,
         "server_auth_limit_hit": 14
@@ -28,8 +28,8 @@
       "mode": "parallel_batch_2w",
       "total_events": 1000,
       "total_alerts": 16,
-      "elapsed_seconds": 0.011469,
-      "events_per_second": 87192.2,
+      "elapsed_seconds": 0.008993,
+      "events_per_second": 111202.8,
       "alerts_by_rule": {
         "server_auth_limit_hit": 14,
         "success_after_failure": 2
@@ -39,8 +39,8 @@
       "mode": "parallel_batch_4w",
       "total_events": 1000,
       "total_alerts": 16,
-      "elapsed_seconds": 0.012893,
-      "events_per_second": 77563.6,
+      "elapsed_seconds": 0.011091,
+      "events_per_second": 90160.4,
       "alerts_by_rule": {
         "server_auth_limit_hit": 14,
         "success_after_failure": 2
@@ -50,8 +50,8 @@
       "mode": "parallel_windows_5min",
       "total_events": 1000,
       "total_alerts": 14,
-      "elapsed_seconds": 0.023443,
-      "events_per_second": 42656.9,
+      "elapsed_seconds": 0.021217,
+      "events_per_second": 47132.5,
       "alerts_by_rule": {
         "server_auth_limit_hit": 14
       }
