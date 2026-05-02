@@ -47,10 +47,10 @@ python3 -m kafka_local.consumer
 ### 2. Start the SSH simulator (run second)
 
 ```bash
-python3 simulator/ssh_simulator.py
+python3 -m simulator.ssh_simulator.py
 ```
 
-> This is run as a direct script because it is designed as an executable entrypoint and already uses local imports relative to the project structure.
+> This can be run as a direct script because it is designed as an executable entrypoint and already uses local imports relative to the project structure, but it can also be run as a module path, since it is part of the project structure.
 
 ---
 
