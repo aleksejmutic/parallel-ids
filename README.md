@@ -37,7 +37,7 @@ The SSH simulator is a standalone script that publishes events into Kafka.
 ### 1. Start the Kafka consumer (run first)
 
 ```bash
-python3 -m kafka_local.consumer
+python3 -m event_streaming.consumer
 ```
 
 > This must be run as a module (`-m`) because `kafka_local` is a Python package and relies on package imports (e.g. `shared.schema`, `topics`, etc.).
