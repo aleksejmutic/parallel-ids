@@ -17,12 +17,13 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
+from event_streaming import producer
 
 # Make sure shared/ and storage/ are importable
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from normalizer.ssh_normalizer import SSHNormalizer
-from kafka_local.producer import send_event
+from event_streaming.producer import send_event
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
