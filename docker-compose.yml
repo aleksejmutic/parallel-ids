@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+
+  ids:
+    build:
+      context: .
+    container_name: ids
+    depends_on:
+      - elasticsearch
+      - ssh-server
+      - web-server
+      - linux-workstation
+    networks:
+      - ids-network
+
+  traffic-generator:
+    build:
+      context: ./traffic-generator
+    container_name: traffic-generator
+    depends_on:
+      - ssh-server
+      - web-server
+      - linux-workstation
+    networks:
+      - ids-network
+
+  ssh-server:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: ssh-server
+    environment:
+      USER_NAME: alexei
+      USER_PASSWORD: password
+    networks:
+      - ids-network
+
+  web-server:
+    image: nginx:latest
+    container_name: web-server
+    networks:
+      - ids-network
+
+  linux-workstation:
+    build:
+      context: ./linux-workstation
+    container_name: linux-workstation
+    privileged: true
+    networks:
+      - ids-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.1.3
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    networks:
+      - ids-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.1.3
+    container_name: kibana
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - ids-network
+
+networks:
+  ids-network:
+    driver: bridge
