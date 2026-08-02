@@ -31,6 +31,9 @@ services:
     environment:
       USER_NAME: alexei
       USER_PASSWORD: password
+      PASSWORD_ACCESS: true
+    ports:
+      - "2222:2222"
     networks:
       - ids-network
 

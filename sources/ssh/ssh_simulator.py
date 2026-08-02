@@ -34,10 +34,17 @@ def collect():
     ssh_target = f"{SSH_USER}@{SSH_HOST}"
 
     ssh_command = [
-        "ssh",
-        ssh_target,
-        "echo Connected"
-    ]
+    "ssh",
+    "-p",
+    str(SSH_PORT),
+    "-o",
+    "StrictHostKeyChecking=no",
+    "-o",
+    "UserKnownHostsFile=/dev/null",
+    ssh_target,
+    "echo",
+    "Connected"
+]
 
     result = subprocess.run(
         ssh_command,
