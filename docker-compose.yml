@@ -10,18 +10,6 @@ services:
       - elasticsearch
       - ssh-server
       - web-server
-      - linux-workstation
-    networks:
-      - ids-network
-
-  traffic-generator:
-    build:
-      context: ./traffic-generator
-    container_name: traffic-generator
-    depends_on:
-      - ssh-server
-      - web-server
-      - linux-workstation
     networks:
       - ids-network
 
@@ -37,19 +25,18 @@ services:
     networks:
       - ids-network
 
-  web-server:
-    image: nginx:latest
-    container_name: web-server
+  ssh-bruteforce:
+    build:
+      context: .
+    container_name: ssh-bruteforce
+    command: ["python", "-u", "-m", "sources.ssh.attacks.brute_force"]
+    depends_on:
+      - ssh-server
     networks:
       - ids-network
 
-  linux-workstation:
-    build:
-      context: ./linux-workstation
-    container_name: linux-workstation
-    privileged: true
-    networks:
-      - ids-network
+  web-server:
+    image: nginx:latest
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:9.1.3

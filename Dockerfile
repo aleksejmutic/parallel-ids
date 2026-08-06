@@ -10,4 +10,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "brute_force.py"]
+CMD ["python", "-u", "-m", "sources.ssh.attacks.brute_force"]

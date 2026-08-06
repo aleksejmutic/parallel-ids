@@ -29,9 +29,13 @@ with open("wordlists/passwords.txt", "r") as file:
         )
 
         print("Exit code:", result.returncode)
+        print("STDOUT:", result.stdout)
+        print("STDERR:", result.stderr)
+
+        print("Exit code:", result.returncode)
 
         if result.returncode == 0:
             print(f"[+] Password found: {password}")
             break
 
-        time.sleep(0.3)
+        time.sleep(5)
