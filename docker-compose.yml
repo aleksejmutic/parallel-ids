@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
 
   ids:
@@ -7,11 +5,11 @@ services:
       context: .
     container_name: ids
     depends_on:
-      - elasticsearch
       - ssh-server
-      - web-server
+      - elasticsearch
     networks:
       - ids-network
+
 
   ssh-server:
     image: lscr.io/linuxserver/openssh-server:latest
@@ -25,18 +23,6 @@ services:
     networks:
       - ids-network
 
-  ssh-bruteforce:
-    build:
-      context: .
-    container_name: ssh-bruteforce
-    command: ["python", "-u", "-m", "sources.ssh.attacks.brute_force"]
-    depends_on:
-      - ssh-server
-    networks:
-      - ids-network
-
-  web-server:
-    image: nginx:latest
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:9.1.3
@@ -49,6 +35,7 @@ services:
     networks:
       - ids-network
 
+
   kibana:
     image: docker.elastic.co/kibana/kibana:9.1.3
     container_name: kibana
@@ -60,6 +47,8 @@ services:
       - "5601:5601"
     networks:
       - ids-network
+
+
 
 networks:
   ids-network:

