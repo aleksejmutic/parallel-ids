@@ -42,7 +42,7 @@ def run_attack():
 
             time.sleep(1)
 
-    return None
+    return result
 
 
 if __name__ == "__main__":
