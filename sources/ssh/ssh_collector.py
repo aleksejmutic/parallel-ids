@@ -22,7 +22,7 @@ from core.event_factory import create_event
 from config import SSH_USER, SSH_HOST, SSH_PORT
 
 
-def collect():
+def collect(result, attack_type):
     """
     Executes an SSH command and returns a normalized IDS event.
 
@@ -31,35 +31,16 @@ def collect():
     and converts the result into a common event format.
     """
 
-    ssh_target = f"{SSH_USER}@{SSH_HOST}"
-
-    ssh_command = [
-    "ssh",
-    "-p",
-    str(SSH_PORT),
-    "-o",
-    "StrictHostKeyChecking=no",
-    "-o",
-    "UserKnownHostsFile=/dev/null",
-    ssh_target,
-    "echo",
-    "Connected"
-]
-
-    result = subprocess.run(
-        ssh_command,
-        capture_output=True,
-        text=True,
-        timeout=10
-    )
-
     event = create_event(
         source_type="ssh",
         result=result,
         context={
-            "command": " ".join(ssh_command),
+            "command": "SSH authentication attempt",
+            "source_ip": "127.0.0.1",
+            "source_host": "attacker",
+            "dest_ip": SSH_HOST,
             "dest_port": SSH_PORT,
-            "source_ip": "127.0.0.1"
+            "attack_type": attack_type,
         }
     )
 

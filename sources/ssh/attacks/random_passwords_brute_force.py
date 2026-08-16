@@ -35,7 +35,7 @@ def run_attack():
             text=True
         )
 
-        return result
+        yield result
 
 
 if __name__ == "__main__":

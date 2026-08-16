@@ -57,6 +57,7 @@ def create_event(
 
         "metadata": {
             "command": context.get("command"),
+            "attack_type": context.get("attack_type"),
             "success": getattr(result, "returncode", -1) == 0,
             "simulated": simulated
         }

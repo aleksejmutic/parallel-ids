@@ -36,13 +36,13 @@ def run_attack():
                 text=True
             )
 
+            yield result
+
             if result.returncode == 0:
                 print(f"[+] Password found: {password}")
                 return result
 
             time.sleep(1)
-
-    return result
 
 
 if __name__ == "__main__":
