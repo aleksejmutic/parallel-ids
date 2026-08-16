@@ -8,6 +8,8 @@ services:
       - ssh-server
       - elasticsearch
       - kafka
+    volumes:
+      - ./logs:/app/logs
     networks:
       - ids-network
 
