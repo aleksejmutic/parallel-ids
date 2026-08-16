@@ -4,7 +4,7 @@ from detection.rules.base import DetectionRule
 class BruteForceRule(DetectionRule):
     name = "ssh_brute_force"
 
-    def __init__(self, threshold=5, window_seconds=60):
+    def __init__(self, threshold=5, window_seconds=10):
         self.threshold = threshold
         self.window_seconds = window_seconds
         self.failures_by_ip = {}  # local to this worker/process, no sharing needed
