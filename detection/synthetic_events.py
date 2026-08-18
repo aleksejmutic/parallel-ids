@@ -3,11 +3,7 @@ Generates a synthetic corpus of SSH auth events for benchmarking.
 
 This is deliberately NOT wired to sources/ssh/attacks/*.py. Those scripts
 drive real sshpass subprocesses at real network speed (with a 1-second
-sleep between attempts) — perfect for the live demo/dashboard, but
-useless for benchmarking, since your timing numbers would measure SSH
-handshake latency instead of your detection code. For the 1k-100k event
-sweep in your abstract, generate a fixed corpus once and time all three
-strategies against the exact same data.
+sleep between attempts).
 """
 import random
 import time
