@@ -26,7 +26,7 @@ class BatchStrategy(DetectionStrategy):
 
     def __init__(self, num_workers: int = 4):
         self.num_workers = num_workers
-
+    
     def process(self, events, rule_specs):
         partitions: dict[int, list[dict]] = defaultdict(list)
         for event in events:
