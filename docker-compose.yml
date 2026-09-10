@@ -19,7 +19,7 @@ services:
     container_name: ssh-server
     environment:
       USER_NAME: alexei
-      USER_PASSWORD: password
+      USER_PASSWORD: barber
       PASSWORD_ACCESS: true
     ports:
       - "2222:2222"
