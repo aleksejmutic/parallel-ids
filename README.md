@@ -8,7 +8,33 @@ IDS including a Network Telemetry Simulator that generates SSH, HTTP, and system
 
 ```bash
 docker compose up --build ids
+```
 
+## HTTP API
+
+The project includes a FastAPI-based HTTP server used as a target for HTTP attack simulation and IDS testing.
+
+The API is available on port `8000`.
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/` | Returns basic API service information |
+| `GET` | `/api/health` | Health check endpoint |
+| `GET` | `/api/data` | Returns mock resource data |
+| `POST` | `/api/auth/login` | Authenticates a user using a username and password |
+
+### Authentication
+
+The `/api/auth/login` endpoint accepts a JSON request body:
+
+```json
+{
+  "username": "admin",
+  "password": "password"
+}
+```
 
 ## Benchmark
 
