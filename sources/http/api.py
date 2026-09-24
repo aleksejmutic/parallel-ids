@@ -9,7 +9,7 @@ app = FastAPI(
 )
 
 
-# Test users
+# Test users/ these are the users which are stored, in a real application this would be stored in a database and hashed
 
 USERS = {
     "admin": "password",
