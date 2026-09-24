@@ -11,10 +11,10 @@ RULE_SPECS = [(BruteForceRule, {"threshold": 5, "window_seconds": 60})]
 
 def run_consumer():
     consumer = EventConsumer()
-    strategy = SerialStrategy()
+    strategy = SerialStrategy(RULE_SPECS)
     try:
         for event in consumer.consume():
-            alerts = strategy.process([event], RULE_SPECS)
+            alerts = strategy.process([event])
             if alerts:
                 log_alerts(alerts, strategy.name)
                 print("ALERT:", alerts)

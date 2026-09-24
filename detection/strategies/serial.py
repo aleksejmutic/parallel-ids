@@ -7,12 +7,20 @@ class SerialStrategy(DetectionStrategy):
 
     name = "serial"
 
-    def process(self, events, rule_specs):
-        rules = [cls(**kwargs) for cls, kwargs in rule_specs]
+    def __init__(self, rule_specs):
+        self.rules = [
+            cls(**kwargs)
+            for cls, kwargs in rule_specs
+        ]
+
+    def process(self, events):
         alerts = []
+
         for event in events:
-            for rule in rules:
+            for rule in self.rules:
                 alert = rule.evaluate(event)
+
                 if alert:
                     alerts.append(alert)
+
         return alerts

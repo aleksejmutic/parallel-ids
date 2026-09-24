@@ -44,4 +44,7 @@ def collect(result, attack_type):
         }
     )
 
+    print("NORMALIZED SSH EVENT:")
+    print(event)
+
     return event

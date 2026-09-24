@@ -24,6 +24,14 @@ import uuid
 from datetime import datetime, timezone
 
 from core.event_schema import EVENT_FORMAT
+from core.normalizers.ssh import normalize as normalize_ssh
+from core.normalizers.http import normalize as normalize_http
+
+
+NORMALIZERS = {
+    "ssh": normalize_ssh,
+    "http": normalize_http,
+}
 
 
 def create_event(
@@ -32,9 +40,11 @@ def create_event(
     context: dict | None = None,
     simulated: bool = True
 ):
-
     if context is None:
         context = {}
+
+    normalizer = NORMALIZERS[source_type]
+    normalized = normalizer(result)
 
     event = copy.deepcopy(EVENT_FORMAT)
 
@@ -51,15 +61,17 @@ def create_event(
         "dest_ip": context.get("dest_ip"),
         "dest_port": context.get("dest_port"),
 
-        "raw_stdout": getattr(result, "stdout", ""),
-        "raw_stderr": getattr(result, "stderr", ""),
-        "exit_code": getattr(result, "returncode", None),
+        "severity": context.get("severity", "low"),
+
+        "raw_stdout": normalized["raw_stdout"],
+        "raw_stderr": normalized["raw_stderr"],
+        "exit_code": normalized["exit_code"],
 
         "metadata": {
             "command": context.get("command"),
             "attack_type": context.get("attack_type"),
-            "success": getattr(result, "returncode", -1) == 0,
-            "simulated": simulated
+            "success": normalized["success"],
+            "simulated": simulated,
         }
     })
 
