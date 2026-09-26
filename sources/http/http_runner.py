@@ -5,6 +5,7 @@
 
 import json
 import threading
+import time
 
 from core.event_bus import EventBus
 from sources.http.attacks.brute_force import run_attack as run_brute_force
@@ -14,44 +15,32 @@ from sources.http.http_collector import collect
 
 
 def brute_force_worker(event_bus):
-
-    for result in run_brute_force():
-
-        event = collect(
-            result,
-            attack_type="brute_force"
-        )
-
-        event_bus.publish(event)
-
-        print(json.dumps(event, indent=4))
+    # Lab mode: finite generator (ends on wordlist exhaustion, returns on a
+    # cracked password). Relaunch so the pane stays live forever.
+    while True:
+        for result in run_brute_force():
+            event = collect(result, attack_type="brute_force")
+            event_bus.publish(event)
+            print(json.dumps(event, indent=4))
+        time.sleep(2)
 
 
 def credential_stuffing_worker(event_bus):
-
-    for result in run_credential_stuffing():
-
-        event = collect(
-            result,
-            attack_type="credential_stuffing"
-        )
-
-        event_bus.publish(event)
-
-        print(json.dumps(event, indent=4))
+    # Lab mode: finite generator (ends after all username/password combos).
+    # Relaunch so the pane stays live forever.
+    while True:
+        for result in run_credential_stuffing():
+            event = collect(result, attack_type="credential_stuffing")
+            event_bus.publish(event)
+            print(json.dumps(event, indent=4))
+        time.sleep(2)
 
 
 def request_flood_worker(event_bus):
-
+    # run_request_flood() is already an infinite generator -- no outer wrapper.
     for result in run_request_flood():
-
-        event = collect(
-            result,
-            attack_type="request_flood"
-        )
-
+        event = collect(result, attack_type="request_flood")
         event_bus.publish(event)
-
         print(json.dumps(event, indent=4))
 
 

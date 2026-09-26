@@ -1,5 +1,6 @@
 import json
 import threading
+import time
 
 from core.event_bus import EventBus
 from sources.ssh.attacks.brute_force import run_attack
@@ -8,30 +9,23 @@ from sources.ssh.ssh_collector import collect
 
 
 def brute_force_worker(event_bus):
-
-    for result in run_attack():
-
-        event = collect(
-            result,
-            attack_type="brute_force"
-        )
-
-        event_bus.publish(event)
-
-        print(json.dumps(event, indent=4))
+    # Lab mode: the wordlist brute force is a *finite* generator -- it ends when
+    # the wordlist is exhausted, and returns early if it cracks the password.
+    # Wrap it so it relaunches and keeps the pane live forever.
+    while True:
+        for result in run_attack():
+            event = collect(result, attack_type="brute_force")
+            event_bus.publish(event)
+            print(json.dumps(event, indent=4))
+        time.sleep(2)
 
 
 def random_attack_worker(event_bus):
-
+    # run_random_attack() is already an infinite generator (while True inside),
+    # so this loop never exhausts -- no outer restart wrapper needed.
     for result in run_random_attack():
-
-        event = collect(
-            result,
-            attack_type="random_password"
-        )
-
+        event = collect(result, attack_type="random_password")
         event_bus.publish(event)
-
         print(json.dumps(event, indent=4))
 
 

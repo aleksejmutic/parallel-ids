@@ -1,7 +1,7 @@
 import random
 import string
 import subprocess
-from time import time
+import time
 
 from config import SSH_HOST, SSH_PORT, SSH_USER
 
