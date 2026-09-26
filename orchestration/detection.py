@@ -50,6 +50,8 @@ def run_detection():
     es = ElasticsearchClient()
 
     try:
+        es.initialize()
+
         for event in consumer.consume():
 
             # Store every event in Elasticsearch

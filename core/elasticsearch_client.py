@@ -1,3 +1,6 @@
+# Elasticsearch client responsible for initializing the IDS indices,
+# configuring them for the single-node cluster, and storing events and alerts.
+
 from elasticsearch import Elasticsearch
 
 
@@ -10,6 +13,21 @@ class ElasticsearchClient:
     ):
         self.client = Elasticsearch(
             f"http://{host}:{port}"
+        )
+
+    def initialize(self):
+        self._create_index("ids-events")
+        self._create_index("ids-alerts")
+
+    def _create_index(self, index_name):
+        if self.client.indices.exists(index=index_name):
+            return
+
+        self.client.indices.create(
+            index=index_name,
+            settings={
+                "number_of_replicas": 0,
+            },
         )
 
     def index_event(self, event):
