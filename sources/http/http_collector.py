@@ -27,7 +27,7 @@ def collect(result, attack_type):
         source_type="http",
         result=result,
         context={
-            "command": "HTTP authentication attempt",
+            "command": "HTTP request",
             "source_ip": "127.0.0.1",
             "source_host": "attacker",
             "dest_ip": HTTP_HOST,
