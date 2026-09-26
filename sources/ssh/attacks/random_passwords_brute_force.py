@@ -1,6 +1,7 @@
 import random
 import string
 import subprocess
+from time import time
 
 from config import SSH_HOST, SSH_PORT, SSH_USER
 
@@ -36,6 +37,8 @@ def run_attack():
         )
 
         yield result
+
+        time.sleep(1)
 
 
 if __name__ == "__main__":
