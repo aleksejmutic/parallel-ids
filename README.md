@@ -95,7 +95,7 @@ Server-Sent Events connection to the backend and shows two things:
   force, SSH random password, HTTP brute force, HTTP credential stuffing, HTTP
   request flood, plus an *Unmatched* catch-all). Failed attempts render dim;
   a successful credential attempt renders as a highlighted green
-  **✔ PASSWORD CRACKED / ACCESS GRANTED** line in that pane.
+  ** PASSWORD CRACKED / ACCESS GRANTED** line in that pane.
 
 The dashboard's Kafka consumer uses its own unique consumer group and reads
 from the latest offset, so it never competes with the detection consumer and
