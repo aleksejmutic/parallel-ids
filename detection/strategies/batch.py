@@ -1,12 +1,13 @@
+import zlib
 from collections import defaultdict
-from concurrent.futures import ProcessPoolExecutor
 
-from detection.strategies.base import DetectionStrategy
+from detection.strategies.base import PooledStrategy
 
 
 def _process_partition(events: list[dict], rule_specs) -> list[dict]:
     """Runs inside a worker process. Builds fresh rule instances so this
-    partition's state never touches any other partition's state."""
+    partition's state never touches any other partition's state -- and so
+    reusing the pool across calls can't leak state between them either."""
     rules = [cls(**kwargs) for cls, kwargs in rule_specs]
     alerts = []
     for event in events:
@@ -17,28 +18,41 @@ def _process_partition(events: list[dict], rule_specs) -> list[dict]:
     return alerts
 
 
-class BatchStrategy(DetectionStrategy):
+def _stable_bucket(source_ip: str, num_workers: int) -> int:
+    """Deterministic partition assignment.
+
+    The builtin hash() salts string hashing per interpreter (PYTHONHASHSEED),
+    so hash(ip) gives different buckets in different processes/runs. That's
+    invisible while results happen to be correct, but it makes partitioning
+    non-reproducible. crc32 is stable across processes and runs.
+    """
+    return zlib.crc32(source_ip.encode("utf-8")) % num_workers
+
+
+class BatchStrategy(PooledStrategy):
     """Partitions the active IP space into num_workers groups. Every rule
     runs against every partition, but each partition only ever sees its
-    own slice of IPs, so no cross-worker state sharing is needed."""
+    own slice of IPs, so no cross-worker state sharing is needed.
+
+    The pool is owned by PooledStrategy: created once, reused across calls,
+    warmed via warmup() before timing.
+    """
 
     name = "batch"
 
-    def __init__(self, num_workers: int = 4):
-        self.num_workers = num_workers
-    
     def process(self, events, rule_specs):
+        pool = self._ensure_pool()
+
         partitions: dict[int, list[dict]] = defaultdict(list)
         for event in events:
-            partition_id = hash(event["source_ip"]) % self.num_workers
+            partition_id = _stable_bucket(event["source_ip"], self.num_workers)
             partitions[partition_id].append(event)
 
         alerts = []
-        with ProcessPoolExecutor(max_workers=self.num_workers) as pool:
-            futures = [
-                pool.submit(_process_partition, part, rule_specs)
-                for part in partitions.values()
-            ]
-            for future in futures:
-                alerts.extend(future.result())
+        futures = [
+            pool.submit(_process_partition, part, rule_specs)
+            for part in partitions.values()
+        ]
+        for future in futures:
+            alerts.extend(future.result())
         return alerts

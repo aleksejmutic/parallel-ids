@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>IDS Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">IDS</span>
+      <span class="brand-sub">intrusion detection · live console</span>
+    </div>
+    <div class="topbar-right">
+      <div class="readout"><span id="eventRate" class="readout-value">0</span><span class="readout-label">events/sec</span></div>
+      <div id="link" class="link link-down"><span class="link-dot"></span><span id="linkText">connecting</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel benchmark">
+      <div class="panel-head">
+        <div>
+          <h2>Parallelization benchmark</h2>
+          <p class="panel-desc">Replays a fixed synthetic corpus (1k → 100k events) through each detection strategy and measures throughput, wall-clock time, and how many alerts each strategy actually raises.</p>
+        </div>
+        <div class="benchmark-controls">
+          <button id="runBenchmark" class="btn">Start benchmark</button>
+          <span id="benchmarkStatus" class="run-status">idle</span>
+        </div>
+      </div>
+
+      <div class="legend" id="legend">
+        <span class="legend-item" data-strategy="serial"><span class="swatch"></span>serial</span>
+        <span class="legend-item" data-strategy="batch"><span class="swatch"></span>batch</span>
+        <span class="legend-item" data-strategy="sliding_window"><span class="swatch"></span>sliding_window</span>
+      </div>
+
+      <div class="charts">
+        <figure class="chart-card">
+          <figcaption>Throughput <span>events/sec — higher is better</span></figcaption>
+          <div class="chart-wrap"><canvas id="throughputChart"></canvas></div>
+        </figure>
+        <figure class="chart-card">
+          <figcaption>Processing time <span>seconds — lower is better</span></figcaption>
+          <div class="chart-wrap"><canvas id="latencyChart"></canvas></div>
+        </figure>
+        <figure class="chart-card">
+          <figcaption>Alerts raised <span>fidelity — serial is ground truth</span></figcaption>
+          <div class="chart-wrap"><canvas id="alertsChart"></canvas></div>
+        </figure>
+      </div>
+
+      <div class="table-wrap">
+        <table id="resultsTable">
+          <thead>
+            <tr><th>strategy</th><th>volume</th><th>time (s)</th><th>throughput (ev/s)</th><th>alerts</th></tr>
+          </thead>
+          <tbody id="resultsBody">
+            <tr class="empty-row"><td colspan="5">No runs yet — start a benchmark to populate.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="live">
+      <div class="live-head">
+        <h2>Live attack streams</h2>
+        <p class="panel-desc">Every panel is one attack worker, read from the <code>ids-events</code> Kafka topic and split by source and attack type. Green = the target accepted the request; dim = rejected/failed.</p>
+      </div>
+
+      <div class="consoles">
+        <div class="console" data-key="ssh:brute_force" data-accent="ssh">
+          <div class="console-head"><span class="dot"></span><span class="console-title">SSH · Brute force</span><span class="console-count" data-count>0</span></div>
+          <div class="log" data-log></div>
+        </div>
+        <div class="console" data-key="ssh:random_password" data-accent="ssh">
+          <div class="console-head"><span class="dot"></span><span class="console-title">SSH · Random password</span><span class="console-count" data-count>0</span></div>
+          <div class="log" data-log></div>
+        </div>
+        <div class="console" data-key="http:brute_force" data-accent="http">
+          <div class="console-head"><span class="dot"></span><span class="console-title">HTTP · Brute force</span><span class="console-count" data-count>0</span></div>
+          <div class="log" data-log></div>
+        </div>
+        <div class="console" data-key="http:credential_stuffing" data-accent="http">
+          <div class="console-head"><span class="dot"></span><span class="console-title">HTTP · Credential stuffing</span><span class="console-count" data-count>0</span></div>
+          <div class="log" data-log></div>
+        </div>
+        <div class="console" data-key="http:request_flood" data-accent="http">
+          <div class="console-head"><span class="dot"></span><span class="console-title">HTTP · Request flood</span><span class="console-count" data-count>0</span></div>
+          <div class="log" data-log></div>
+        </div>
+        <div class="console" data-key="__other__" data-accent="other">
+          <div class="console-head"><span class="dot"></span><span class="console-title">Unmatched</span><span class="console-count" data-count>0</span></div>
+          <div class="log" data-log></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
