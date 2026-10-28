@@ -157,11 +157,19 @@ It returns `200` on a valid username/password pair and `401` otherwise.
 
 ## Kibana
 
+Kibana must be started separately from the main pipeline:
+
+```bash
+docker compose up -d kibana
+```
+
+The Kibana dashboard is served on port **5601** at `http://localhost:5601`.
+
 A Kibana **data view** connected to the IDS Elasticsearch indices is available
-at `http://localhost:5601`. It surfaces the events and alerts the pipeline
-writes to Elasticsearch (`ids-events` and `ids-alerts`) as browsable, filterable
-**logs**, giving a persistent, queryable view of the traffic and detections to
-complement the live web dashboard.
+there. It surfaces the events and alerts the pipeline writes to Elasticsearch
+(`ids-events` and `ids-alerts`) as browsable, filterable **logs**, giving a
+persistent, queryable view of the traffic and detections to complement the
+live web dashboard.
 
 ## Benchmark
 
